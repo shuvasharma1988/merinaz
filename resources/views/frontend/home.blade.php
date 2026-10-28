@@ -182,30 +182,68 @@
         <div class="m-card overflow-hidden">
             <div class="row g-0">
                 <div class="col-lg-6 p-4 p-md-5">
-                    <span class="badge-soft"><i class="bi bi-geo-alt"></i> Adams Morgan</span>
-                    <h2 id="locSnap" class="fw-bold mt-3">Two minutes from the 18th St bustle, worlds calmer inside</h2>
-                    <p class="mb-1 fw-bold">{{ \App\Models\SiteSetting::get('address', '2436 18th St NW, Washington, DC 20009') }}</p>
-                    <p class="text-muted small"><i class="bi bi-train-front"></i> Woodley Park Metro (Red) · Circulator &amp; 42/43 bus · Street parking + garage at 1800 Columbia</p>
-                    <div class="row g-2 mt-2">
-                        <div class="col-6">
-                            <div class="p-3 rounded-4" style="background:var(--cream-2);border:1px solid var(--line)">
-                                <small class="text-muted d-block">Mon – Sat</small><strong>10 AM – 8 PM</strong>
+                    <span class="badge-soft"><i class="bi bi-geo-alt"></i> Our Studios</span>
+                    <h2 id="locSnap" class="fw-bold mt-3">Two sanctuaries in DC. Worlds calmer inside.</h2>
+
+                    {{-- Branch Tabs with data-map-url --}}
+                    <ul class="nav nav-pills gap-2 mt-3 mb-4" id="locationTabs" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="filter-chip active" id="columbia-tab" data-bs-toggle="pill" data-bs-target="#columbia" type="button" role="tab" aria-controls="columbia" aria-selected="true" data-map-url="https://www.google.com/maps?q=1768+Columbia+Rd+NW,+Washington,+DC+20009&output=embed">Columbia Road</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="filter-chip" id="wisconsin-tab" data-bs-toggle="pill" data-bs-target="#wisconsin" type="button" role="tab" aria-controls="wisconsin" aria-selected="false" data-map-url="https://www.google.com/maps?q=3500+Wisconsin+Ave+NW,+Washington,+DC+20016&output=embed">Wisconsin Ave</button>
+                        </li>
+                    </ul>
+
+                    {{-- Tab Content --}}
+                    <div class="tab-content" id="locationTabsContent">
+                        {{-- Location 1: Columbia Road --}}
+                        <div class="tab-pane fade show active" id="columbia" role="tabpanel" aria-labelledby="columbia-tab">
+                            <p class="mb-1 fw-bold">1768 Columbia Rd NW, Floor 2, Washington DC, 20009</p>
+                            <p class="text-muted small"><i class="bi bi-telephone"></i> (202) 469-2869 · Street parking + garage at 1800 Columbia</p>
+                            <div class="row g-2 mt-2">
+                                <div class="col-6">
+                                    <div class="p-3 rounded-4" style="background:var(--cream-2);border:1px solid var(--line)">
+                                        <small class="text-muted d-block">Mon – Sat</small><strong>10 AM – 8 PM</strong>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="p-3 rounded-4" style="background:var(--cream-2);border:1px solid var(--line)">
+                                        <small class="text-muted d-block">Sun</small><strong>10 AM – 7 PM</strong>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div class="col-6">
-                            <div class="p-3 rounded-4" style="background:var(--cream-2);border:1px solid var(--line)">
-                                <small class="text-muted d-block">Sun</small><strong>10 AM – 7 PM</strong>
+
+                        {{-- Location 2: Wisconsin Avenue --}}
+                        <div class="tab-pane fade" id="wisconsin" role="tabpanel" aria-labelledby="wisconsin-tab">
+                            <p class="mb-1 fw-bold">3500 Wisconsin Avenue NW, Suite A, Washington, DC 20016</p>
+                            <p class="text-muted small"><i class="bi bi-telephone"></i> (202) 804-4185 · Tenleytown Metro (Red) · Street parking</p>
+                            <div class="row g-2 mt-2">
+                                <div class="col-6">
+                                    <div class="p-3 rounded-4" style="background:var(--cream-2);border:1px solid var(--line)">
+                                        <small class="text-muted d-block">Mon – Sat</small><strong>10 AM – 8 PM</strong>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="p-3 rounded-4" style="background:var(--cream-2);border:1px solid var(--line)">
+                                        <small class="text-muted d-block">Sun</small><strong>10 AM – 7 PM</strong>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="d-flex gap-2 mt-3 flex-wrap">
+
+                    <div class="d-flex gap-2 mt-4 flex-wrap">
                         <a href="{{ route('booking.index') }}" class="btn btn-primary-mer btn-merinaz">Book a visit</a>
                         <a href="{{ route('contact') }}" class="btn btn-outline-mer btn-merinaz">Directions &amp; contact</a>
                     </div>
                 </div>
+
                 <div class="col-lg-6">
-                    <iframe title="Map showing Merinaz location in Adams Morgan DC" class="map-frame rounded-0 h-100" style="min-height:340px"
-                            src="https://www.google.com/maps?q=1768 Columbia Rd NW, Washington, DC 20009, USA&output=embed" loading="lazy"></iframe>
+                    {{-- Added id="dynamicMap" --}}
+                    <iframe id="dynamicMap" title="Map showing Merinaz location" class="map-frame rounded-0 h-100 w-100" style="min-height:340px"
+                            src="https://www.google.com/maps?q=1768+Columbia+Rd+NW,+Washington,+DC+20009&output=embed" loading="lazy"></iframe>
                 </div>
             </div>
         </div>
@@ -230,3 +268,21 @@
         </div>
     </section>
 @endsection
+
+@push('scripts')
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const mapIframe = document.getElementById('dynamicMap');
+            const tabs = document.querySelectorAll('button[data-bs-toggle="pill"]');
+
+            tabs.forEach(tab => {
+                tab.addEventListener('shown.bs.tab', function (event) {
+                    const mapUrl = event.target.getAttribute('data-map-url');
+                    if (mapUrl && mapIframe) {
+                        mapIframe.src = mapUrl;
+                    }
+                });
+            });
+        });
+    </script>
+@endpush

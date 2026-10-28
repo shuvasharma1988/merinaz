@@ -2,7 +2,10 @@
 <header class="sticky-header">
     <nav class="navbar navbar-expand-lg container py-2" aria-label="Primary navigation">
         <a class="navbar-brand" href="{{ route('home') }}" aria-label="Merinaz home">
-            <span class="logo-mark" aria-hidden="true">M<span>.</span></span>
+            {{-- Updated Logo Wrapper --}}
+            <div style="background-color: var(--ink); padding: 4px 8px; border-radius: 12px; display: flex; align-items: center; justify-content: center; height: 44px; margin-right: 0.5rem;">
+                <img src="{{ asset('images/logosmall.png') }}" alt="Merinaz Logo" style="max-height: 24px; width: auto; object-fit: contain;">
+            </div>
             <span>
                 <span class="brand-name">Merinaz</span><br>
                 <span class="brand-sub">Wax • Thread • Sugar • Skin</span>

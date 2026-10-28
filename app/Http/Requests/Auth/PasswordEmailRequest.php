@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Auth;
 
+use App\Rules\Recaptcha;
 use Illuminate\Foundation\Http\FormRequest;
 
 class PasswordEmailRequest extends FormRequest
@@ -22,7 +23,7 @@ class PasswordEmailRequest extends FormRequest
     {
         return [
             'email' => ['required', 'string', 'email', 'max:255'],
-            'g-recaptcha-response' => ['required', 'captcha'],
+            'g-recaptcha-response' => ['required', new Recaptcha],
         ];
     }
 }

@@ -16,39 +16,89 @@
 
         @if ($categories->isNotEmpty())
             <div class="d-flex gap-2 flex-wrap my-4" role="group" aria-label="Service categories">
-                <span class="filter-chip active">{{ $categories->count() }} categories</span>
+                <button class="filter-chip category-chip active" data-filter="All">All Categories</button>
                 @foreach ($categories as $category)
-                    <span class="filter-chip">{{ $category->name }}</span>
+                    <button class="filter-chip category-chip" data-filter="{{ $category->name }}">{{ $category->name }}</button>
                 @endforeach
             </div>
         @endif
 
-        <div class="row g-3">
+        <div class="row g-3" id="servicesGrid">
             @forelse ($services as $service)
-                @include('frontend.partials.service-card', ['service' => $service])
+                <div class="col-md-6 col-lg-4 service-item" data-category="{{ $service->category?->name ?? 'Uncategorized' }}">
+                    {{-- ADDED: d-flex flex-column to force proper vertical stacking within the fixed card --}}
+                    <article class="m-card h-100 d-flex flex-column">
+                        @if ($service->imageUrl())
+                            <img src="{{ $service->imageUrl() }}" alt="{{ $service->name }}" class="card-img flex-shrink-0" loading="lazy">
+                        @endif
+
+                        {{-- FIXED: Changed from h-100 to flex-grow-1 so it absorbs remaining space without overflowing --}}
+                        <div class="p-3 p-md-4 d-flex flex-column flex-grow-1">
+                            <div class="d-flex gap-2 mb-2">
+                                <span class="badge-soft">{{ $service->category?->name }}</span>
+                                <span class="badge-sand">{{ $service->duration_minutes }} min</span>
+                            </div>
+                            <h3 class="h5 fw-bold mb-1">{{ $service->name }}</h3>
+                            <p class="small text-muted mb-3 flex-grow-1">{{ $service->short_description }}</p>
+
+                            {{-- mt-auto ensures the price and buttons are always locked to the absolute bottom --}}
+                            <div class="d-flex justify-content-between align-items-center mt-auto">
+                                <strong class="serif fs-4">${{ number_format((float) $service->price, 2) }}</strong>
+                                <div class="d-flex gap-1">
+                                    <a href="{{ route('services.show', $service) }}" class="btn btn-light-mer btn-merinaz btn-sm-mer">Details</a>
+                                    <a href="{{ route('booking.index') }}" class="btn btn-primary-mer btn-merinaz btn-sm-mer">
+                                        <i class="bi bi-calendar-plus"></i> Book
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+                </div>
             @empty
-                <p class="text-muted">No services are published yet.</p>
+                <div class="col-12">
+                    <p class="text-muted">No services are published yet.</p>
+                </div>
             @endforelse
         </div>
-
-        <div class="row g-3 mt-2">
-            <div class="col-lg-4">
-                <div class="p-4 rounded-4 h-100" style="background:var(--ink);color:#EDE2D3">
-                    <h3 class="text-white">First visit?</h3>
-                    <p class="small opacity-75">Get 15% off any threading or $10 off any Brazilian. Patch test always free.</p>
-                    <a href="{{ route('contact') }}" class="btn btn-primary-mer btn-merinaz btn-sm-mer">Claim &amp; book</a>
-                </div>
-            </div>
-            <div class="col-lg-8">
-                <div class="hygiene-strip p-4 h-100">
-                    <h3 class="h5 fw-bold"><i class="bi bi-shield-check me-2"></i>What “hygienic” actually means here</h3>
-                    <div class="row small text-muted">
-                        <div class="col-md-4">✓ Fresh gloves + fresh stick, every dip</div>
-                        <div class="col-md-4">✓ Hospital-grade autoclave for tools</div>
-                        <div class="col-md-4">✓ Fresh linens + barrier film per guest</div>
-                    </div>
-                </div>
-            </div>
-        </div>
     </section>
+
+    @push('scripts')
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const chips = document.querySelectorAll('.category-chip');
+                const items = document.querySelectorAll('.service-item');
+                const allChip = document.querySelector('[data-filter="All"]');
+
+                chips.forEach(chip => {
+                    chip.addEventListener('click', function() {
+                        const isAll = this.dataset.filter === 'All';
+
+                        if (isAll) {
+                            chips.forEach(c => c.classList.remove('active'));
+                            this.classList.add('active');
+                            items.forEach(item => item.classList.remove('d-none'));
+                        } else {
+                            if (allChip) allChip.classList.remove('active');
+                            this.classList.toggle('active');
+
+                            const activeCategories = Array.from(document.querySelectorAll('.category-chip.active')).map(c => c.dataset.filter);
+
+                            if (activeCategories.length === 0 && allChip) {
+                                allChip.classList.add('active');
+                                items.forEach(item => item.classList.remove('d-none'));
+                            } else {
+                                items.forEach(item => {
+                                    if (activeCategories.includes(item.dataset.category)) {
+                                        item.classList.remove('d-none');
+                                    } else {
+                                        item.classList.add('d-none');
+                                    }
+                                });
+                            }
+                        }
+                    });
+                });
+            });
+        </script>
+    @endpush
 @endsection

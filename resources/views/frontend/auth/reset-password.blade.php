@@ -1,4 +1,6 @@
-@extends('layouts.auth')
+@extends('layouts.frontend.frontend')
+
+@section('title', 'Create New Password | Merinaz')
 
 @section('content')
     <div class="container py-5">

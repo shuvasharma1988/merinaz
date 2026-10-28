@@ -1,4 +1,6 @@
-@extends('layouts.auth')
+@extends('layouts.frontend.frontend')
+
+@section('title', 'Create Account | Merinaz')
 
 @section('content')
     <div class="container py-5">
@@ -45,8 +47,8 @@
                 </form>
 
                 <div class="mt-4 text-center small">
-                    Already have an account? <a href="{{ route('login') }}" class="text-decoration-none fw-bold">Log
-                        in</a>
+                    <span class="text-muted">Already have an account?</span>
+                    <a href="{{ route('login') }}" class="text-decoration-none fw-bold ms-1">Log in</a>
                 </div>
             </div>
         </div>

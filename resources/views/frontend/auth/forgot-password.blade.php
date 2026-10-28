@@ -1,12 +1,13 @@
-@extends('layouts.auth')
+@extends('layouts.frontend.frontend')
+
+@section('title', 'Reset Password | Merinaz')
 
 @section('content')
     <div class="container py-5">
         <div class="row justify-content-center">
             <div class="col-md-5">
                 <h1 class="h3 mb-3 font-weight-bold">Reset Password</h1>
-                <p class="text-muted small mb-4">Enter your email address and we will send you a link to reset your
-                    password.</p>
+                <p class="text-muted small mb-4">Enter your email address and we will send you a link to reset your password.</p>
 
                 @if (session('status'))
                     <div class="alert alert-success small">{{ session('status') }}</div>

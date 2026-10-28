@@ -92,6 +92,9 @@ Route::get('/book', [BookingController::class, 'index'])->name('booking.index');
 Route::post('/book/details', [BookingController::class, 'details'])->name('booking.details');
 Route::post('/book/store', [BookingController::class, 'store'])->name('booking.store');
 Route::get('/book/confirmation/{reference}', [BookingController::class, 'confirmation'])->name('booking.confirmation');
+// Dynamic API endpoints for the frontend booking cascade
+Route::get('/book/api/slots', [App\Http\Controllers\Frontend\BookingController::class, 'getAvailableSlots'])->name('booking.api.slots');
+Route::get('/book/api/capable-staff', [App\Http\Controllers\Frontend\BookingController::class, 'getCapableStaff'])->name('booking.api.capable-staff');
 
 // Dynamic slots for the frontend
 Route::get('/book/api/slots', [BookingController::class, 'getAvailableSlots'])->name('booking.api.slots');

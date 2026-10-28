@@ -38,12 +38,10 @@
                         <input type="hidden" name="location_id" value="{{ $validated['location_id'] }}">
                         <input type="hidden" name="date" value="{{ $validated['date'] }}">
                         <input type="hidden" name="time" value="{{ $validated['time'] }}">
+                        <input type="hidden" name="service_id" value="{{ $validated['service_id'] }}">
                         @if(isset($validated['staff_id']))
                             <input type="hidden" name="staff_id" value="{{ $validated['staff_id'] }}">
                         @endif
-                        @foreach($validated['services'] as $svcId)
-                            <input type="hidden" name="services[]" value="{{ $svcId }}">
-                        @endforeach
 
                         {{-- Clean PHP Block for User Pre-filling to prevent Blade compiler crashes --}}
                         @php
@@ -147,25 +145,21 @@
                         <i class="bi bi-clock me-1"></i> {{ \Carbon\Carbon::parse($validated['time'])->format('g:i A') }}
                     </div>
 
-                    @php $totalPrice = 0; @endphp
                     <div class="small d-grid gap-3 mb-3">
-                        @foreach($selectedServices as $svc)
-                            @php $totalPrice += $svc->price; @endphp
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div>
-                                    <strong>{{ $svc->name }}</strong><br>
-                                    <span class="text-muted">{{ $svc->duration ?? $svc->duration_minutes ?? 30 }} min</span>
-                                </div>
-                                <strong>${{ number_format($svc->price, 2) }}</strong>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <strong>{{ $selectedService->name }}</strong><br>
+                                <span class="text-muted">{{ $selectedService->duration ?? $selectedService->duration_minutes ?? 30 }} min</span>
                             </div>
-                        @endforeach
+                            <strong>${{ number_format($selectedService->price, 2) }}</strong>
+                        </div>
                     </div>
 
                     <hr class="divider-soft my-3">
 
                     <div class="d-flex justify-content-between small">
                         <span class="text-muted">Subtotal</span>
-                        <strong>${{ number_format($totalPrice, 2) }}</strong>
+                        <strong>${{ number_format($selectedService->price, 2) }}</strong>
                     </div>
                     <div class="d-flex justify-content-between small mt-1">
                         <span class="text-muted">Booking fee</span>
@@ -173,7 +167,7 @@
                     </div>
                     <div class="d-flex justify-content-between fs-5 mt-2 pt-2 border-top">
                         <span>Total due</span>
-                        <strong>${{ number_format($totalPrice, 2) }}</strong>
+                        <strong>${{ number_format($selectedService->price, 2) }}</strong>
                     </div>
 
                     <small class="text-muted d-block mt-2">Pay in studio · Cash, card, Apple Pay</small>

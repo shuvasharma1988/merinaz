@@ -65,28 +65,28 @@
         </nav>
 
         <div class="row g-4 align-items-start">
-            {{-- Left: Image --}}
+            {{-- Left: Image & Description --}}
             <div class="col-lg-6">
                 @if ($service->imageUrl())
-                    <div class="rounded-4 overflow-hidden shadow-sm bg-white" style="width: 100%; max-width: 100%;">
+                    <div class="rounded-4 overflow-hidden shadow-sm bg-white mb-4" style="width: 100%; max-width: 100%;">
                         <img src="{{ $service->imageUrl() }}" alt="{{ $service->name }}" class="img-fluid w-100" style="height: 440px; object-fit: cover; display: block;">
                     </div>
                 @endif
-            </div>
 
-            {{-- Right: Details --}}
-            <div class="col-lg-6">
-                <span class="badge-soft d-inline-block">{{ $service->category?->name }} · {{ $service->duration_minutes }} min</span>
-
-                <h1 class="display-5 fw-bold mt-3 mb-3 text-break" style="line-height: 1.1; word-break: break-word;">{{ $service->name }}</h1>
-
-                {{-- Safe Rich Text Wrapper --}}
+                {{-- Safe Rich Text Wrapper (Maintained below image on desktop, stacks below image on mobile) --}}
                 <div class="lead-soft mb-4 text-break" style="max-width: 100%; word-break: break-word; overflow-wrap: break-word;">
                     {!! $service->description !!}
                 </div>
+            </div>
+
+            {{-- Right: Details, Booking Action & Pairs Well With --}}
+            <div class="col-lg-6">
+                <span class="badge-soft d-inline-block">{{ $service->category?->name }} · {{ $service->duration_minutes }} min</span>
+
+                <h1 class="display-5 fw-bold mt-3 mb-4 text-break" style="line-height: 1.1; word-break: break-word;">{{ $service->name }}</h1>
 
                 {{-- PRICE CARD: Fixed Desktop Overflow --}}
-                <div class="m-card p-3 p-md-4 mb-4 d-flex flex-column flex-lg-row justify-content-between align-items-start align-items-lg-center gap-3 overflow-hidden">
+                <div class="m-card p-3 p-md-4 mb-4 d-flex flex-column flex-xl-row justify-content-between align-items-start align-items-xl-center gap-3 overflow-hidden">
 
                     <div class="min-w-0 flex-grow-1">
                         <small class="text-muted d-block text-uppercase fw-bold mb-1" style="letter-spacing: 0.05em;">Transparent price</small>
@@ -96,8 +96,8 @@
                     </div>
 
                     {{-- Buttons: Natural size on desktop, stacked flex on mobile --}}
-                    <div class="d-flex flex-column flex-sm-row gap-2 flex-shrink-0 mt-2 mt-lg-0 w-100 w-lg-auto">
-                        <a href="{{ route('contact') }}" class="btn btn-primary-mer btn-merinaz text-center px-4">
+                    <div class="d-flex flex-column flex-sm-row gap-2 flex-shrink-0 mt-2 mt-xl-0 w-100 w-xl-auto">
+                        <a href="{{ route('booking.index') }}" class="btn btn-primary-mer btn-merinaz text-center px-4">
                             <i class="bi bi-calendar-check me-2"></i> Book this
                         </a>
                         <a href="{{ route('faq.index') }}" class="btn btn-light-mer btn-merinaz text-center px-4">
@@ -108,7 +108,7 @@
                 </div>
 
                 {{-- Hygiene Strip --}}
-                <div class="hygiene-strip p-3 small d-flex flex-column flex-sm-row gap-3 align-items-sm-center overflow-hidden w-100" style="max-width: 100%;">
+                <div class="hygiene-strip p-3 mb-5 small d-flex flex-column flex-sm-row gap-3 align-items-sm-center overflow-hidden w-100" style="max-width: 100%;">
                     <div class="icon-bubble icon-sage flex-shrink-0 align-self-start align-self-sm-center" style="width: 44px; height: 44px;">
                         <i class="bi bi-shield-check fs-5"></i>
                     </div>
@@ -117,42 +117,11 @@
                         <span class="text-muted d-block">Consultation, patch test on request, soothing balm, and 48-hr check-in text.</span>
                     </div>
                 </div>
-            </div>
-        </div>
 
-        {{-- FAQs and Related --}}
-        @if ($service->faqs->isNotEmpty() || $related->isNotEmpty())
-            <div class="row g-4 mt-4 mt-lg-5">
-
-                {{-- FAQs Section --}}
-                <div class="col-lg-7">
-                    @if ($service->faqs->isNotEmpty())
-                        <h2 class="fw-bold h3 mb-4">Service FAQs</h2>
-                        <div class="accordion w-100" id="faqAccordion" style="max-width: 100%;">
-                            @foreach ($service->faqs as $index => $faq)
-                                <div class="accordion-item border rounded-4 overflow-hidden mb-3 shadow-sm bg-white">
-                                    <h3 class="accordion-header">
-                                        <button class="accordion-button {{ $index === 0 ? '' : 'collapsed' }} fw-bold text-start" type="button"
-                                                data-bs-toggle="collapse" data-bs-target="#service-faq-{{ $faq->id }}"
-                                                aria-expanded="{{ $index === 0 ? 'true' : 'false' }}">
-                                            {{ $faq->question }}
-                                        </button>
-                                    </h3>
-                                    <div id="service-faq-{{ $faq->id }}" class="accordion-collapse collapse {{ $index === 0 ? 'show' : '' }}" data-bs-parent="#faqAccordion">
-                                        <div class="accordion-body small text-muted border-top text-break">
-                                            {!! $faq->answer !!}
-                                        </div>
-                                    </div>
-                                </div>
-                            @endforeach
-                        </div>
-                    @endif
-                </div>
-
-                {{-- Related Services Section --}}
-                <div class="col-lg-5">
-                    @if ($related->isNotEmpty())
-                        <h2 class="fw-bold h3 mb-4">Pairs well with</h2>
+                {{-- MOVED: Related Services Section (Now anchored below booking actions) --}}
+                @if ($related->isNotEmpty())
+                    <div class="pt-4 border-top border-light">
+                        <h2 class="fw-bold h4 mb-4">Pairs well with</h2>
                         <div class="d-grid gap-3 w-100" style="max-width: 100%;">
                             @foreach ($related as $relatedService)
                                 <div class="m-card p-3 d-flex flex-column flex-sm-row gap-3 align-items-start align-items-sm-center overflow-hidden">
@@ -179,9 +148,35 @@
                                 </div>
                             @endforeach
                         </div>
-                    @endif
-                </div>
+                    </div>
+                @endif
+            </div>
+        </div>
 
+        {{-- FAQs Section (Now isolated at the bottom in a readable, centered-feeling container) --}}
+        @if ($service->faqs->isNotEmpty())
+            <div class="row mt-5 pt-3">
+                <div class="col-lg-8">
+                    <h2 class="fw-bold h3 mb-4">Service FAQs</h2>
+                    <div class="accordion w-100" id="faqAccordion" style="max-width: 100%;">
+                        @foreach ($service->faqs as $index => $faq)
+                            <div class="accordion-item border rounded-4 overflow-hidden mb-3 shadow-sm bg-white">
+                                <h3 class="accordion-header">
+                                    <button class="accordion-button {{ $index === 0 ? '' : 'collapsed' }} fw-bold text-start" type="button"
+                                            data-bs-toggle="collapse" data-bs-target="#service-faq-{{ $faq->id }}"
+                                            aria-expanded="{{ $index === 0 ? 'true' : 'false' }}">
+                                        {{ $faq->question }}
+                                    </button>
+                                </h3>
+                                <div id="service-faq-{{ $faq->id }}" class="accordion-collapse collapse {{ $index === 0 ? 'show' : '' }}" data-bs-parent="#faqAccordion">
+                                    <div class="accordion-body small text-muted border-top text-break">
+                                        {!! $faq->answer !!}
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
             </div>
         @endif
     </section>

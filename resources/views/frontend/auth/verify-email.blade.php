@@ -1,4 +1,6 @@
-@extends('layouts.auth')
+@extends('layouts.frontend.frontend')
+
+@section('title', 'Verify Your Email | Merinaz')
 
 @section('content')
     <div class="container py-5">
@@ -21,8 +23,9 @@
                     <div class="mb-4 d-flex justify-content-center">
                         <div>
                             <div class="g-recaptcha" data-sitekey="{{ config('services.recaptcha.site_key') }}"></div>
-                            @error('g-recaptcha-response') <span
-                                    class="text-danger small d-block mt-2">{{ $message }}</span> @enderror
+                            @error('g-recaptcha-response')
+                            <span class="text-danger small d-block mt-2">{{ $message }}</span>
+                            @enderror
                         </div>
                     </div>
 
