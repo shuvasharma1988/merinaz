@@ -7,7 +7,7 @@
     {{-- CSRF Token for XHR requests if needed --}}
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>Log in · Merinaz Admin</title>
+    <title>Merinaz Admin Login</title>
 
     {{-- Typography --}}
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -21,14 +21,14 @@
     {{-- Merinaz Admin Custom Styles --}}
     <link href="{{ asset('css/admin.css') }}" rel="stylesheet">
 
-    {{-- Google reCAPTCHA v2 Script --}}
-{{--    <script src="https://www.google.com/recaptcha/api.js" async defer></script>--}}
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </head>
+
 <body data-role="guest">
 <main class="login-wrap" id="loginWrap">
     <div class="login-card" role="dialog" aria-modal="true" aria-labelledby="loginTitle">
         <span class="wordmark">Merinaz</span>
-        <div class="brand-sub mb-1">Admin · Adams Morgan, Washington DC</div>
+        <div class="brand-sub mb-1">Admin Portal</div>
 
         <h1 id="loginTitle" style="font-size:18px; margin:12px 0 4px;">Log in</h1>
         <p class="muted small" style="margin-bottom:16px;">Front desk and owner access. Use your work email.</p>
@@ -107,3 +107,4 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+
