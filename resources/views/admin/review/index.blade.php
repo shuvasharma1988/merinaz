@@ -50,11 +50,11 @@
 
                 <p class="tiny muted mt-2 mb-0">Average and count are computed from the list. Hiding or deleting updates them.</p>
 
-                <div class="plain-divide">
+               {{-- <div class="plain-divide">
                     <h3>Review requests</h3>
                     <p class="small mb-1">Sent after completed visits · 2 hours later</p>
                     <p class="small muted mb-0">Last 7 days: 22 sent · 9 opened · 6 reviewed</p>
-                </div>
+                </div>--}}
             </div>
 
             {{-- Right Column: Filter Tabs & Review Cards --}}
@@ -63,7 +63,7 @@
                     <a href="{{ request()->fullUrlWithQuery(['status' => null]) }}" class="mz-tab {{ !request('status') ? 'on' : '' }}">
                         All · {{ $totalReviews ?? '8' }}
                     </a>
-                    <a href="{{ request()->fullUrlWithQuery(['status' => 'pending']) }}" class="mz-tab {{ request('status') === 'pending' ? 'on' : '' }}">
+                    {{--<a href="{{ request()->fullUrlWithQuery(['status' => 'pending']) }}" class="mz-tab {{ request('status') === 'pending' ? 'on' : '' }}">
                         Pending · {{ $pendingCount ?? '2' }}
                     </a>
                     <a href="{{ request()->fullUrlWithQuery(['status' => 'approved']) }}" class="mz-tab {{ request('status') === 'approved' ? 'on' : '' }}">
@@ -71,7 +71,7 @@
                     </a>
                     <a href="{{ request()->fullUrlWithQuery(['status' => 'hidden']) }}" class="mz-tab {{ request('status') === 'hidden' ? 'on' : '' }}">
                         Hidden · {{ $hiddenCount ?? '1' }}
-                    </a>
+                    </a>--}}
                 </div>
 
                 <div id="reviewsList">
@@ -158,31 +158,3 @@
         </div>
     </section>
 @endsection
-```
-
----
-
-### 2. Review Create (Manual Entry / Imported Review)
-**File path:** `resources/views/admin/reviews/create.blade.php`[cite: 1, 4]
-
-```html
-
-```
-
----
-
-### 3. Review Edit (Moderation & Status Changes)
-**File path:** `resources/views/admin/reviews/edit.blade.php`[cite: 1, 4]
-
-```html
-
-```
-
----
-
-### 4. Review Show (Full Inspection & Audit)
-**File path:** `resources/views/admin/reviews/show.blade.php`[cite: 1, 4]
-
-```html
-
-```

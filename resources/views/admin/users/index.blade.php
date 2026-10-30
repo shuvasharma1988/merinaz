@@ -135,7 +135,7 @@
             </table>
         </div>
         <p class="small muted mt-2">
-            Own only means rows, timelines, and history are filtered to visits where the staff member is assigned. Notes marked owner and manager only stay hidden[cite: 1, 2].
+            Own only means rows, timelines, and history are filtered to visits where the staff member is assigned. Notes marked owner and manager only stay hidden.
         </p>
     </section>
 @endsection

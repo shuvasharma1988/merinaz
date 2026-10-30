@@ -78,7 +78,7 @@
                                     </option>
                                 @endforeach
                             </select>
-                            <p class="tiny muted mt-1 mb-0">Required for Staff role so their bookings and timeline scope correctly[cite: 1, 2].</p>
+                            <p class="tiny muted mt-1 mb-0">Required for Staff role so their bookings and timeline scope correctly.</p>
                         </div>
                     </div>
                 </div>

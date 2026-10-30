@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Auth;
 
+use App\Rules\Recaptcha;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\Password;
 
@@ -25,7 +26,7 @@ class PasswordResetRequest extends FormRequest
             'token' => ['required', 'string'],
             'email' => ['required', 'string', 'email', 'max:255'],
             'password' => ['required', 'confirmed', Password::defaults()],
-            'g-recaptcha-response' => ['required', 'captcha'],
+            'g-recaptcha-response' => ['required', new Recaptcha],
         ];
     }
 }

@@ -44,7 +44,7 @@ class RoleController extends Controller
             $role->permissions()->sync($request->validated('permissions'));
         }
 
-        // Dispatch audit event to log the creation and permission assignments[cite: 7]
+        // Dispatch audit event to log the creation and permission assignments
         event(new RoleModified(auth()->user(), 'created', $role));
 
         return redirect()->route('admin.roles.index')
@@ -71,7 +71,7 @@ class RoleController extends Controller
 
         $role->permissions()->sync($request->validated('permissions', []));
 
-        // Dispatch audit event to log the modification and permission changes[cite: 7]
+        // Dispatch audit event to log the modification and permission changes
         event(new RoleModified(auth()->user(), 'updated', $role));
 
         return redirect()->route('admin.roles.index')
@@ -84,7 +84,7 @@ class RoleController extends Controller
 
         $roleName = $role->name;
 
-        // Dispatch audit event BEFORE deletion so the listener has access to the role data[cite: 7]
+        // Dispatch audit event BEFORE deletion so the listener has access to the role data
         event(new RoleModified(auth()->user(), 'deleted', $role));
 
         $role->delete();

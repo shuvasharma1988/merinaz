@@ -46,8 +46,7 @@
 
         {{-- App Footer --}}
         <footer class="app-footer">
-            Merinaz admin · 1800 Adams Mill Rd NW · front desk build 1.4 ·
-            <a href="#">Error pages</a>
+            Merinaz Admin · 1768 Columbia Rd NW ·
         </footer>
     </div>
 </div>

@@ -40,11 +40,11 @@
                     <h2>Role privilege summary</h2>
                     <p class="small text-muted mb-2">
                         @if(($user->role ?? 'manager') === 'owner')
-                            Full unrestricted access across all business settings, financial logs, and staff assignments[cite: 1, 2].
+                            Full unrestricted access across all business settings, financial logs, and staff assignments.
                         @elseif(($user->role ?? 'manager') === 'manager')
-                            Complete access to bookings, client records, and service catalogues[cite: 1, 2]. Restricted from global site settings and user invitations[cite: 1, 2].
+                            Complete access to bookings, client records, and service catalogues. Restricted from global site settings and user invitations.
                         @else
-                            Scoped access: can only view own bookings, assigned schedule, and clients served[cite: 1, 2].
+                            Scoped access: can only view own bookings, assigned schedule, and clients served.
                         @endif
                     </p>
                     <div class="plain-divide">

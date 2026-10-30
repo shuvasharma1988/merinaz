@@ -12,7 +12,7 @@ class LogRoleActivity
         // Load permissions if they exist (will be empty on delete if cascaded, but useful for create/update)
         $permissions = $event->role->exists ? $event->role->permissions->pluck('name')->toArray() : [];
 
-        // Write a detailed security audit trail so the owner can answer "Who changed this permission?"[cite: 7]
+        // Write a detailed security audit trail so the owner can answer "Who changed this permission?"
         Log::info("Role {$event->action}", [
             'actor_id' => $event->actor->id,
             'actor_email' => $event->actor->email,

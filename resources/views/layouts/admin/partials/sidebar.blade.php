@@ -44,10 +44,12 @@
             auth()->user()->hasPermission('messages.view') ||
             auth()->user()->hasPermission('content.manage')
         )
+            @if(auth()->user()->hasPermission('review.view'))
             <div class="nav-label">Content</div>
-            <a class="side-link" href="#" data-view="reviews">
-                <span>Reviews</span>
-            </a>
+                <a class="side-link {{ request()->routeIs('admin.reviews.*') ? 'active' : '' }}" href="{{ route('admin.reviews.index') }}">
+                    <span>Reviews</span>
+                </a>
+            @endif
 
             @if(auth()->user()->hasPermission('posts.view') || auth()->user()->hasPermission('content.manage'))
                 <a class="side-link {{ request()->routeIs('admin.posts.*') ? 'active' : '' }}" href="{{ route('admin.posts.index') }}">
@@ -106,9 +108,6 @@
                 <a class="side-link {{ request()->routeIs('admin.settings.*') ? 'active' : '' }}" href="{{ route('admin.settings.edit') }}">
                     <span>Site settings</span>
                 </a>
-                <a class="side-link" href="#" data-view="email-notifications">
-                    <span>Email notifications</span>
-                </a>
             @endif
         @endif
     </nav>
@@ -116,7 +115,7 @@
     {{-- Footer Info --}}
     <div class="sidebar-foot">
         {{ \App\Models\SiteSetting::get('address', '1800 Adams Mill Rd NW') }}<br>
-        Open today 9:00a to 7:00p<br>
+        Open today 10:00AM to 8:00 PM<br>
         <a href="#" data-view="account" id="footAccount">Account</a> ·
 
         @auth

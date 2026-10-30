@@ -21,7 +21,8 @@ class PasswordResetController extends Controller
 
     public function storeLinkRequest(PasswordEmailRequest $request): RedirectResponse
     {
-        $status = Password::sendResetLink($request->validated());
+        $status = Password::sendResetLink($request->only('email')
+        );
 
         return $status === Password::RESET_LINK_SENT
             ? back()->with('status', __($status))
@@ -36,7 +37,7 @@ class PasswordResetController extends Controller
     public function storeReset(PasswordResetRequest $request): RedirectResponse
     {
         $status = Password::reset(
-            $request->validated(),
+            $request->only('email', 'password', 'password_confirmation', 'token'),
             function ($user, $password) {
                 $user->password = Hash::make($password);
                 $user->setRememberToken(Str::random(60));
